@@ -1,88 +1,28 @@
-<!DOCTTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>TechShop</title>
-        <style>
-            .ejemplo { color: blue;}
-            .error { color: red;}
-        </style>
+    <head th:replace="layout/plantilla :: head">
+        <title>Inicio</title>
     </head>
     <body>
-        <header th:replace="layout/plantilla :: header"/>
-        <!--<div>Saludos</div>
-        <p th:text="${Mensaje}"></p>
-        <p th:text="${Nombre}"></p>
-
-        <h2>Cliente desde el modelo</h2>
-        <p>Nombre: <span th:text="${cliente.nombre}"></span></p>
-        <p>Apellidos: <span th:text="${cliente.apellidos}"></span></p>
-        <p>Correo: <span th:text="${cliente.correo}"></span></p>
-        <p>Teléfono: <span th:text="${cliente.telefono}"></span></p>
-
-        <h2>Lista de clientes desde el modelo</h2>
-        <div th:if="${clientes != null and !clientes.empty}">
-            <table border="1">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Apellidos</th>
-                        <th>Correo</th>
-                        <th>Teléfono</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="item : ${clientes}">
-                        <td th:text="${item.nombre}" th:class="${item.nombre == 'Jonathan'} ? 'ejemplo' : 'error'"></td>
-                        <td th:text="${item.apellidos}"></td>
-                        <td th:text="${item.correo}"></td>
-                        <td th:text="${item.telefono}"></td>
-                    </tr>
-                </tbody>
-            </table>
+        <header th:replace="layout/plantilla :: header"></header>        
+        <div class="container">
+            <h2 th:text="#{index.titulo}">Nuestros Articulos</h2>            
+            <div class="row row-cols-3" th:if="${articulos != null and !articulos.empty}">
+                <div class="card" th:each="articulo : ${articulos}" >
+                    <img src="/images/equipo1.jpg" class="card-img-top" alt="equipo">  
+                    <div class="card-body">
+                        <h5 class="card-title">[[${articulo.descripcion}]]</h5>
+                        <h6 class="card-subtitle mb-2 text-muted text-end">[[${new java.text.DecimalFormat('¢#,##0.00').format(articulo.precio)}]]</h6>
+                        <a class="card-link" th:href="@{/carrito/agregar/} + ${articulo.idArticulo}">[[#{articulo.comprar}]]</a>
+                        <p class="card-text">[[${articulo.detalle}]]</p>                        
+                    </div>
+                </div>                
+            </div>
+            <div th:if="${articulos == null or articulos.empty}"  th:text="#{articulo.no_mostrar}">
+                No tenemos lista de articulos que mostrar...
+            </div>
         </div>
-        
-        <div th:if="${clientes == null or clientes.empty}">
-            La lista de clientes está vacía
-        </div>-->
-        
-        
-        <h2>Lista de clientes desde base de datos</h2>
-        <br>
-        <a th:href="@{/nuevoCliente}">Nuevo Cliente</a>
-        <br>        
-        <br>
-        <div th:if="${clientesDB != null and !clientesDB.empty}">
-            <table border="1">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Apellidos</th>
-                        <th>Correo</th>
-                        <th>Teléfono</th>
-                        <th>Modificar</th>
-                        <th>Eliminar</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="item : ${clientesDB}">
-                        <td th:text="${item.nombre}" th:class="${item.nombre == 'Jonathan'} ? 'ejemplo' : 'error'"></td>
-                        <td th:text="${item.apellidos}"></td>
-                        <td th:text="${item.correo}"></td>
-                        <td th:text="${item.telefono}"></td>
-                        <td><a th:href="@{/modificarCliente/} + ${item.idcliente}">Modificar</a></td>
-                        <td><a th:href="@{/eliminarCliente/} + ${item.idcliente}">Eliminar</a></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        
-        <div th:if="${clientesDB == null or clientesDB.empty}">
-            La lista de clientes está vacía
-        </div>
-        <footer th:replace="layout/plantilla :: footer"/>
+        <footer th:replace="layout/plantilla :: footer"></footer>
 
     </body>
 </html>
